@@ -1,5 +1,5 @@
 # SLC KEMP Monitoring
-
+This is a System Center Operations Manager management pack for KEMP LoadMaster. Works with SCOM 2016+.
 More details are coming soon. 
 
 Brief description:
