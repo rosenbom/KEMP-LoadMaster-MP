@@ -1,0 +1,95 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<TypeDefinitions>
+		<ModuleTypes>
+			<DataSourceModuleType ID="DateComparatorDataSource" Accessibility="Public" Batching="true">
+				<Configuration>
+					<IncludeSchemaTypes>
+						<SchemaType>DateTimeComparisonSchema</SchemaType>
+					</IncludeSchemaTypes>
+					<xsd:element name="IntervalSeconds" type="xsd:int" />
+					<xsd:element name="SyncTime" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="Units" type="DateTimeUnitsType" />
+					<xsd:element name="DateTimeExpression" type="XPathQueryDateTimeValueType" />
+					<xsd:element name="Operator" type="DateTimeCompareType" />
+					<xsd:element name="Value" type="xsd:int" />
+					<xsd:element name="Debug" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
+				</Configuration>
+				<OverrideableParameters>
+					<OverrideableParameter ID="IntervalSeconds" ParameterType="int" Selector="$Config/IntervalSeconds$" />
+					<OverrideableParameter ID="SyncTime" ParameterType="string" Selector="$Config/SyncTime$" />
+					<OverrideableParameter ID="Units" ParameterType="string" Selector="$Config/Units$" />
+					<OverrideableParameter ID="Operator" ParameterType="string" Selector="$Config/Operator$" />
+					<OverrideableParameter ID="Value" ParameterType="int" Selector="$Config/Value$" />
+					<OverrideableParameter ID="Debug" ParameterType="bool" Selector="$Config/Debug$" Comment="Enable debug logging, events can be found in %windir%\Temp\DateComparator.log"/>
+				</OverrideableParameters>
+				<ModuleImplementation>
+					<Composite>
+						<MemberModules>
+							<DataSource ID="DS" TypeID="System!System.SimpleScheduler">
+								<IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+								<SyncTime>$Config/SyncTime$</SyncTime>
+							</DataSource>
+							<ProbeAction ID="PA" TypeID="DateComparatorProbeActionv2">
+								<Units>$Config/Units$</Units>
+								<DateTimeExpression>$Config/DateTimeExpression$</DateTimeExpression>
+								<Operator>$Config/Operator$</Operator>
+								<Value>$Config/Value$</Value>
+								<Debug>$Config/Debug$</Debug>
+							</ProbeAction>
+						</MemberModules>
+						<Composition>
+							<Node ID="PA">
+								<Node ID="DS" />
+							</Node>
+						</Composition>
+					</Composite>
+				</ModuleImplementation>
+				<OutputType>System!System.BaseData</OutputType>
+			</DataSourceModuleType>
+			<ProbeActionModuleType ID="DateComparatorProbeAction" Accessibility="Public" Batching="false">
+				<Configuration>
+					<IncludeSchemaTypes>
+						<SchemaType>DateTimeComparisonSchema</SchemaType>
+					</IncludeSchemaTypes>
+					<xsd:element name="Units" type="DateTimeUnitsType" />
+					<xsd:element name="DateTimeExpression" type="XPathQueryDateTimeValueType" />
+					<xsd:element name="Operator" type="DateTimeCompareType" />
+					<xsd:element name="Value" type="xsd:int" />
+					<xsd:element name="Debug" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
+				</Configuration>
+				<ModuleImplementation>
+					<Managed>
+						<Assembly>DateTimeComparator</Assembly>
+						<Type>SLCSCOMModules.DateComparatorModulev1</Type>
+					</Managed>
+				</ModuleImplementation>
+				<OutputType>System!System.PropertyBagData</OutputType>
+				<InputType>System!System.BaseData</InputType>
+			</ProbeActionModuleType>
+			<ProbeActionModuleType ID="DateComparatorProbeActionv2" Accessibility="Public" Batching="true">
+				<Configuration>
+					<IncludeSchemaTypes>
+						<SchemaType>DateTimeComparisonSchema</SchemaType>
+					</IncludeSchemaTypes>
+					<xsd:element name="Units" type="DateTimeUnitsType" />
+					<xsd:element name="DateTimeExpression" type="XPathQueryDateTimeValueType" />
+					<xsd:element name="Operator" type="DateTimeCompareType" />
+					<xsd:element name="Value" type="xsd:int" />
+					<xsd:element name="Debug" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
+				</Configuration>
+				<ModuleImplementation>
+					<Managed>
+						<Assembly>DateTimeComparator</Assembly>
+						<Type>SLCSCOMModules.DateComparatorModulev2</Type>
+					</Managed>
+				</ModuleImplementation>
+				<OutputType>System!System.PropertyBagData</OutputType>
+				<InputType>System!System.BaseData</InputType>
+			</ProbeActionModuleType>
+		</ModuleTypes>
+	</TypeDefinitions>
+	<Resources>
+		<DeployableAssembly ID="DateTimeComparator" HasNullStream="false" Accessibility="Public" FileName="SLCSCOMModules.dll"
+							 QualifiedName="SLCSCOMModules, Version=1.0.0.1, Culture=neutral, PublicKeyToken=92660cd4e1eb7294" />
+	</Resources>
+</ManagementPackFragment>

@@ -1,0 +1,43 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<TypeDefinitions>
+		<SchemaTypes>
+			<SchemaType ID="DateTimeComparisonSchema" Accessibility="Public">
+				<xsd:simpleType name="DateTimeCompareType">
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Equal" />
+						<xsd:enumeration value="NotEqual" />
+						<xsd:enumeration value="Greater" />
+						<xsd:enumeration value="Less" />
+						<xsd:enumeration value="GreaterEqual" />
+						<xsd:enumeration value="LessEqual" />
+					</xsd:restriction>
+				</xsd:simpleType>
+				<xsd:simpleType name="DateTimeUnitsType">
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="Seconds" />
+						<xsd:enumeration value="Minutes" />
+						<xsd:enumeration value="Hours" />
+						<xsd:enumeration value="Days" />
+						<xsd:enumeration value="Months" />
+						<xsd:enumeration value="Years" />
+					</xsd:restriction>
+				</xsd:simpleType>
+				<xsd:simpleType name="DateTimeValueType">
+					<xsd:restriction base="xsd:string">
+						<xsd:enumeration value="String" />
+						<xsd:enumeration value="FileTime" />
+						<xsd:enumeration value="UnixTimeSeconds" />
+						<xsd:enumeration value="UnixTimeMilliSeconds" />
+					</xsd:restriction>
+				</xsd:simpleType>				
+				<xsd:complexType name="XPathQueryDateTimeValueType">
+				  <xsd:simpleContent>
+					<xsd:extension base="xsd:string">
+					  <xsd:attribute name="type" type="DateTimeValueType" default="String" use="optional"  />
+					</xsd:extension>
+				  </xsd:simpleContent>
+				</xsd:complexType>				
+			</SchemaType>
+		</SchemaTypes>
+	</TypeDefinitions>
+</ManagementPackFragment>

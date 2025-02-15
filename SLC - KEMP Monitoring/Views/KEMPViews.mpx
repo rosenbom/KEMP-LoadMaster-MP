@@ -1,0 +1,62 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Presentation>
+	  <Views>
+		  <View ID="KEMPSSLCertificateStateView" Accessibility="Public" Enabled="true" Target="CJIS.KEMP.SSLCertificate" TypeID="SystemCenter!Microsoft.SystemCenter.StateViewType" Visible="true">
+			  <Category>Operations</Category>
+			  <Criteria>
+				  <InMaintenanceMode>false</InMaintenanceMode>
+			  </Criteria>
+			  <Presentation>
+				  <ColumnInfo Index="0" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="true" SortOrder="Descending">
+					  <Name>State</Name>
+					  <Id>CJIS.KEMP.SSLCertificateHealthState</Id>
+				  </ColumnInfo>
+				  <ColumnInfo Index="1" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="false" SortOrder="Ascending">
+					  <Name>In Maintenance Mode</Name>
+					  <Id>InMaintenanceMode</Id>
+				  </ColumnInfo>
+				  <ColumnInfo Index="2" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="false" SortOrder="Ascending">
+					  <Name>Name</Name>
+					  <Id>Name</Id>
+				  </ColumnInfo>
+				  <ColumnInfo Index="3" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="false" SortOrder="Ascending">
+					  <Name>Path</Name>
+					  <Id>Path</Id>
+				  </ColumnInfo>
+				  <ColumnInfo Index="4" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="false" SortOrder="Ascending">
+					  <Name>Display Name</Name>
+					  <Id>System.Entity/DisplayName</Id>
+				  </ColumnInfo>
+				  <ColumnInfo Index="5" SortIndex="0" Width="100" Grouped="false" Sorted="true" IsSortable="true" Visible="true" SortOrder="Descending">
+					  <Name>Subject</Name>
+					  <Id>CJIS.KEMP.SSLCertificate/Subject</Id>
+				  </ColumnInfo>
+				  <ColumnInfo Index="6" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="true" SortOrder="Ascending">
+					  <Name>Issuer</Name>
+					  <Id>CJIS.KEMP.SSLCertificate/Issuer</Id>
+				  </ColumnInfo>
+				  <ColumnInfo Index="7" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="true" SortOrder="Ascending">
+					  <Name>NotBefore</Name>
+					  <Id>CJIS.KEMP.SSLCertificate/NotBefore</Id>
+				  </ColumnInfo>
+				  <ColumnInfo Index="8" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="true" SortOrder="Ascending">
+					  <Name>NotAfter</Name>
+					  <Id>CJIS.KEMP.SSLCertificate/NotAfter</Id>
+				  </ColumnInfo>
+				  <ColumnInfo Index="9" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="true" SortOrder="Ascending">
+					  <Name>Thumbprint</Name>
+					  <Id>CJIS.KEMP.SSLCertificate/Thumbprint</Id>
+				  </ColumnInfo>
+				  <ColumnInfo Index="10" SortIndex="-1" Width="100" Grouped="false" Sorted="false" IsSortable="true" Visible="true" SortOrder="Ascending">
+					  <Name>SerialNumber</Name>
+					  <Id>CJIS.KEMP.SSLCertificate/SerialNumber</Id>
+				  </ColumnInfo>
+			  </Presentation>
+			  <Target />
+		  </View>
+	  </Views>
+	  <Folders>
+		  <Folder ID="KEMPViews" ParentFolder="SC!Microsoft.SystemCenter.Monitoring.ViewFolder.Root" Accessibility="Public"/>
+	  </Folders>
+  </Presentation>
+</ManagementPackFragment>

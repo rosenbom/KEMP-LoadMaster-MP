@@ -1,0 +1,27 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Monitoring>
+		<Monitors>
+			<DependencyMonitor ID="SLC.KEMP.VSDependencyonSubVSMonitor" Target="SLC.KEMP.VirtualService" Accessibility="Public" Enabled="true" MemberMonitor="Health!System.Health.EntityState" RelationshipType="SLC.KEMP.VirtualService_Contains_SubVirtualService" ParentMonitorID="Health!System.Health.AvailabilityState" Priority="Normal" Remotable="true">
+				<Category>AvailabilityHealth</Category>
+				<Algorithm>BestOf</Algorithm>
+				<MemberUnAvailable>Error</MemberUnAvailable>
+			</DependencyMonitor>
+			<DependencyMonitor ID="SLC.KEMP.VSDependencyOnRSMonitor" Target="SLC.KEMP.VirtualService" Accessibility="Public" Enabled="true" MemberMonitor="SLC.KEMP.RSStateMonitor" RelationshipType="SLC.KEMP.VS_Hosts_RealServer" ParentMonitorID="Health!System.Health.AvailabilityState" Priority="Normal" Remotable="true">
+				<Category>AvailabilityHealth</Category>
+				<Algorithm>BestOf</Algorithm>
+			</DependencyMonitor>
+		</Monitors>
+	</Monitoring>
+	<LanguagePacks>
+		<LanguagePack ID="ENU" IsDefault="true">
+			<DisplayStrings>
+				<DisplayString ElementID="SLC.KEMP.VSDependencyonSubVSMonitor">
+					<Name>SubVS Dependency State</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VSDependencyOnRSMonitor" >
+					<Name>RS Dependency State</Name>
+				</DisplayString>
+			</DisplayStrings>
+		</LanguagePack>
+	</LanguagePacks>
+</ManagementPackFragment>

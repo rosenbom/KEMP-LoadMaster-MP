@@ -1,0 +1,358 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<TypeDefinitions>
+		<ModuleTypes>
+			<DataSourceModuleType ID="SLC.KEMP.VLM_DataSource" Accessibility="Internal" Batching="false">
+				<Configuration>
+					<xsd:element minOccurs="1" name="IntervalSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element minOccurs="0" name="SyncTime" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element minOccurs="1" name="SysObjId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element minOccurs="1" name="Certification" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element minOccurs="0" name="Model" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element minOccurs="0" name="Vendor" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element minOccurs="0" name="ManagementFQDN" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+				</Configuration>
+				<OverrideableParameters>
+					<OverrideableParameter ID="IntervalSeconds" Selector="$Config/IntervalSeconds$" ParameterType="int" />
+					<OverrideableParameter ID="SyncTime" Selector="$Config/SyncTime$" ParameterType="string" />
+				</OverrideableParameters>
+				<ModuleImplementation Isolation="Any">
+					<Composite>
+						<MemberModules>
+							<DataSource ID="Scheduler" TypeID="System!System.Discovery.Scheduler">
+								<Scheduler>
+									<SimpleReccuringSchedule>
+										<Interval>$Config/IntervalSeconds$</Interval>
+										<SyncTime>$Config/SyncTime$</SyncTime>
+									</SimpleReccuringSchedule>
+									<ExcludeDates />
+								</Scheduler>
+							</DataSource>
+							<ConditionDetection ID="CheckAndMapProperties" TypeID="System!System.Discovery.FilteredClassSnapshotDataMapper">
+								<Expression>
+									<SimpleExpression>
+										<ValueExpression>
+											<Value>$Target/Property[Type="SNL!System.NetworkManagement.Node"]/SystemObjectID$</Value>
+										</ValueExpression>
+										<Operator>Equal</Operator>
+										<ValueExpression>
+											<Value Type="String">$Config/SysObjId$</Value>
+										</ValueExpression>
+									</SimpleExpression>
+								</Expression>
+								<ClassId>$MPElement[Name='SLC.KEMP.VLM']$</ClassId>
+								<InstanceSettings>
+									<Settings>
+										<Setting>
+											<Name>$MPElement[Name='SNL!System.NetworkManagement.Node']/DeviceKey$</Name>
+											<Value>$Target/Property[Type="SNL!System.NetworkManagement.Node"]/DeviceKey$</Value>
+										</Setting>
+										<Setting>
+											<Name>$MPElement[Name='SNL!System.NetworkManagement.Node']/Certification$</Name>
+											<Value>$Config/Certification$</Value>
+										</Setting>
+										<Setting>
+											<Name>$MPElement[Name='SNL!System.NetworkManagement.Node']/Model$</Name>
+											<Value>$Config/Model$</Value>
+										</Setting>
+										<Setting>
+											<Name>$MPElement[Name='SNL!System.NetworkManagement.Node']/Vendor$</Name>
+											<Value>$Config/Vendor$</Value>
+										</Setting>
+										<Setting>
+											<Name>$MPElement[Name='SLC.KEMP.VLM']/ManagementFQDN$</Name>
+											<Value>$Config/ManagementFQDN$</Value>
+										</Setting>
+									</Settings>
+								</InstanceSettings>
+							</ConditionDetection>
+						</MemberModules>
+						<Composition>
+							<Node ID="CheckAndMapProperties">
+								<Node ID="Scheduler" />
+							</Node>
+						</Composition>
+					</Composite>
+				</ModuleImplementation>
+				<OutputType>System!System.Discovery.Data</OutputType>
+			</DataSourceModuleType>
+			<DataSourceModuleType ID="SLC.KEMP.SNMPTrapModuleType" Accessibility="Public">
+				<Configuration>
+					<IncludeSchemaTypes>
+						<SchemaType>System!System.ParamListSchema</SchemaType>
+					</IncludeSchemaTypes>
+					<xsd:element minOccurs="1" maxOccurs="1" name="IP" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element minOccurs="0" maxOccurs="1" name="Version" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element minOccurs="0" maxOccurs="1" name="OIDProps" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element minOccurs="0" maxOccurs="unbounded" name="OIDProp" type="xsd:string" />
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</Configuration>
+				<ModuleImplementation Isolation="Any">
+					<Composite>
+						<MemberModules>
+							<DataSource ID="DSTrap" TypeID="SNL!System.NetworkManagement.SnmpTrapProvider">
+								<IP>$Config/IP$</IP>
+								<CommunityString>$RunAs[Name="SNL!System.NetworkManagement.Snmp.MonitoringAccount"]/CommunityString$</CommunityString>
+								<Version>$Config/Version$</Version>
+								<OIDProps>$Config/OIDProps$</OIDProps>
+							</DataSource>
+							<ConditionDetection ID="EventFilter" TypeID="System!System.ExpressionFilter">
+								<Expression>
+									<SimpleExpression>
+										<ValueExpression>
+											<XPathQuery>ErrorCode</XPathQuery>
+										</ValueExpression>
+										<Operator>Equal</Operator>
+										<ValueExpression>
+											<Value Type="UnsignedInteger">1</Value>
+										</ValueExpression>
+									</SimpleExpression>
+								</Expression>
+							</ConditionDetection>
+						</MemberModules>
+						<Composition>
+								<Node ID="EventFilter">
+									<Node ID="DSTrap" />
+								</Node>
+						</Composition>
+					</Composite>
+				</ModuleImplementation>
+				<OutputType>Snmp!System.SnmpData</OutputType>
+			</DataSourceModuleType>
+			<DataSourceModuleType ID="SLC.KEMP.FilteredSNMPTrapModuleType" Accessibility="Public">
+				<Configuration>
+					<IncludeSchemaTypes>
+						<SchemaType>System!System.ParamListSchema</SchemaType>
+					</IncludeSchemaTypes>
+					<xsd:element minOccurs="1" maxOccurs="1" name="IP" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element minOccurs="0" maxOccurs="1" name="Version" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element minOccurs="0" maxOccurs="1" name="OIDProps" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element minOccurs="0" maxOccurs="unbounded" name="OIDProp" type="xsd:string" />
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="StateOID" type="xsd:string" />
+					<xsd:element name="StateDownFilter" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+				</Configuration>
+				<ModuleImplementation Isolation="Any">
+					<Composite>
+						<MemberModules>
+							<DataSource ID="DSTrap" TypeID="SNL!System.NetworkManagement.SnmpTrapProvider">
+								<IP>$Config/IP$</IP>
+								<CommunityString>$RunAs[Name="SNL!System.NetworkManagement.Snmp.MonitoringAccount"]/CommunityString$</CommunityString>
+								<Version>$Config/Version$</Version>
+								<OIDProps>$Config/OIDProps$</OIDProps>
+							</DataSource>
+							<ConditionDetection ID="EventFilter" TypeID="System!System.ExpressionFilter">
+								<Expression>
+									<SimpleExpression>
+										<ValueExpression>
+											<XPathQuery>ErrorCode</XPathQuery>
+										</ValueExpression>
+										<Operator>Equal</Operator>
+										<ValueExpression>
+											<Value Type="UnsignedInteger">1</Value>
+										</ValueExpression>
+									</SimpleExpression>
+								</Expression>
+							</ConditionDetection>
+							<ConditionDetection ID="RSDownFilter" TypeID="System!System.ExpressionFilter">
+								<Expression>
+									<SimpleExpression>
+										<ValueExpression>
+											<XPathQuery>SnmpVarBinds/SnmpVarBind[OID="$Config/StateOID$"]/Value</XPathQuery>
+										</ValueExpression>
+										<Operator>Equal</Operator>
+										<ValueExpression>
+											<Value Type="UnsignedInteger">$Config/StateDownFilter$</Value>
+										</ValueExpression>
+									</SimpleExpression>
+								</Expression>
+							</ConditionDetection>
+						</MemberModules>
+						<Composition>
+							<Node ID="RSDownFilter">
+								<Node ID="EventFilter">
+									<Node ID="DSTrap" />
+								</Node>
+							</Node>
+						</Composition>
+					</Composite>
+				</ModuleImplementation>
+				<OutputType>Snmp!System.SnmpData</OutputType>
+			</DataSourceModuleType>
+			<DataSourceModuleType ID="SLC.KEMP.VLM_ServicesDS" Accessibility="Internal" Batching="false">
+				<Configuration>
+					<IncludeSchemaTypes>
+						<SchemaType>Windows!Microsoft.Windows.PowerShellSchema</SchemaType>
+					</IncludeSchemaTypes>
+					<xsd:element name="Debug" type="xsd:boolean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element name="IntervalSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element name="TimeoutSeconds" type="xsd:integer" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+				</Configuration>
+				<OverrideableParameters>
+					<OverrideableParameter ID="Debug" ParameterType="bool" Selector="$Config/Debug$" />
+					<OverrideableParameter ID="IntervalSeconds" ParameterType="int" Selector="$Config/IntervalSeconds$" />
+					<OverrideableParameter ID="TimeoutSeconds" ParameterType="int" Selector="$Config/TimeoutSeconds$" />
+				</OverrideableParameters>
+				<ModuleImplementation>
+					<Composite>
+						<MemberModules>
+							<DataSource ID="Scheduler" TypeID="System!System.Discovery.Scheduler">
+								<Scheduler>
+									<SimpleReccuringSchedule>
+										<Interval Unit="Seconds">$Config/IntervalSeconds$</Interval>
+									</SimpleReccuringSchedule>
+									<ExcludeDates/>
+								</Scheduler>
+							</DataSource>
+							<ProbeAction ID="PA" TypeID="Windows!Microsoft.Windows.PowerShellDiscoveryProbe">
+								<ScriptName>KEMPVSRSDiscovery.ps1</ScriptName>
+								<ScriptBody>$IncludeFileContent/Scripts/KEMPVSRSDiscovery.ps1$</ScriptBody>
+								<SnapIns/>
+								<Parameters>
+									<!--<Parameter>
+										<Name>SourceId</Name>
+										<Value>$MPElement$</Value>
+									</Parameter>
+									<Parameter>
+										<Name>TargetId</Name>
+										<Value>$Target/Id$</Value>
+									</Parameter>-->
+									<Parameter>
+										<Name>debug</Name>
+										<Value>$Config/Debug$</Value>
+									</Parameter>
+								</Parameters>
+								<TimeoutSeconds>$Config/TimeoutSeconds$</TimeoutSeconds>
+							</ProbeAction>
+						</MemberModules>
+						<Composition>
+							<Node ID="PA">
+								<Node ID="Scheduler" />
+							</Node>
+						</Composition>
+					</Composite>
+				</ModuleImplementation>
+				<OutputType>System!System.Discovery.Data</OutputType>
+			</DataSourceModuleType>
+			<DataSourceModuleType ID="SLC.KEMP.FilteredRSStateDS" Accessibility="Public">
+				<Configuration>
+					<IncludeSchemaTypes>
+						<SchemaType>System!System.ParamListSchema</SchemaType>
+					</IncludeSchemaTypes>
+					<xsd:element minOccurs="1" maxOccurs="1" name="IP" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element minOccurs="0" maxOccurs="1" name="Version" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element minOccurs="0" maxOccurs="1" name="OIDProps" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element minOccurs="0" maxOccurs="unbounded" name="OIDProp" type="xsd:string" />
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="RSIndex" type="xsd:string" />
+				</Configuration>
+				<ModuleImplementation Isolation="Any">
+					<Composite>
+						<MemberModules>
+							<DataSource ID="DSTrap" TypeID="SLC.KEMP.SNMPTrapModuleType">
+								<IP>$Config/IP$</IP>
+								<Version>$Config/Version$</Version>
+								<OIDProps>
+									<OIDProp>.1.3.6.1.4.1.12196.13.3.1.2</OIDProp>
+								</OIDProps>
+							</DataSource>
+							<ConditionDetection ID="RSFilter" TypeID="System!System.ExpressionFilter">
+								<Expression>
+									<And>
+										<Expression>
+											<Exists>
+												<ValueExpression>
+													<XPathQuery>SnmpVarBinds/SnmpVarBind[OID=".1.3.6.1.4.1.12196.13.2.1.5.$Config/RSIndex$"]</XPathQuery>
+												</ValueExpression>
+											</Exists>
+										</Expression>
+										<Expression>
+											<Exists>
+												<ValueExpression>
+													<XPathQuery>SnmpVarBinds/SnmpVarBind[OID=".1.3.6.1.4.1.12196.13.2.1.8.$Config/RSIndex$"]</XPathQuery>
+												</ValueExpression>
+											</Exists>
+										</Expression>
+									</And>									
+								</Expression>
+							</ConditionDetection>
+						</MemberModules>
+						<Composition>
+							<Node ID="RSFilter">
+								<Node ID="DSTrap" />
+							</Node>
+						</Composition>
+					</Composite>
+				</ModuleImplementation>
+				<OutputType>Snmp!System.SnmpData</OutputType>
+			</DataSourceModuleType>
+			<DataSourceModuleType ID="SLC.KEMP.FilteredVSStateDS" Accessibility="Public">
+				<Configuration>
+					<IncludeSchemaTypes>
+						<SchemaType>System!System.ParamListSchema</SchemaType>
+					</IncludeSchemaTypes>
+					<xsd:element minOccurs="1" maxOccurs="1" name="IP" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element minOccurs="0" maxOccurs="1" name="Version" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+					<xsd:element minOccurs="0" maxOccurs="1" name="OIDProps" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element minOccurs="0" maxOccurs="unbounded" name="OIDProp" type="xsd:string" />
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="VSIndex" type="xsd:string" />
+				</Configuration>
+				<ModuleImplementation Isolation="Any">
+					<Composite>
+						<MemberModules>
+							<DataSource ID="DSTrap" TypeID="SLC.KEMP.SNMPTrapModuleType">
+								<IP>$Config/IP$</IP>
+								<Version>$Config/Version$</Version>
+								<OIDProps>
+									<OIDProp>.1.3.6.1.4.1.12196.13.3.1.1</OIDProp>
+								</OIDProps>
+							</DataSource>
+							<ConditionDetection ID="RSFilter" TypeID="System!System.ExpressionFilter">
+								<Expression>
+									<And>
+										<Expression>
+											<Exists>
+												<ValueExpression>
+													<XPathQuery>SnmpVarBinds/SnmpVarBind[OID=".1.3.6.1.4.1.12196.13.1.1.1.$Config/VSIndex$"]</XPathQuery>
+												</ValueExpression>
+											</Exists>
+										</Expression>
+										<Expression>
+											<Exists>
+												<ValueExpression>
+													<XPathQuery>SnmpVarBinds/SnmpVarBind[OID=".1.3.6.1.4.1.12196.13.1.1.14.$Config/VSIndex$"]</XPathQuery>
+												</ValueExpression>
+											</Exists>
+										</Expression>
+									</And>
+								</Expression>
+							</ConditionDetection>
+						</MemberModules>
+						<Composition>
+							<Node ID="RSFilter">
+								<Node ID="DSTrap" />
+							</Node>
+						</Composition>
+					</Composite>
+				</ModuleImplementation>
+				<OutputType>Snmp!System.SnmpData</OutputType>
+			</DataSourceModuleType>
+		</ModuleTypes>
+	</TypeDefinitions>
+</ManagementPackFragment>

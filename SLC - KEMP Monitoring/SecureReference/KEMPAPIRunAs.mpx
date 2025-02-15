@@ -1,0 +1,17 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<TypeDefinitions>
+		<SecureReferences>
+			<SecureReference ID="SLC.KEMP.APIRunAsAccount" Context="SLC.KEMP.VLM" Accessibility="Public"/>
+		</SecureReferences>
+	</TypeDefinitions>
+	<LanguagePacks>
+		<LanguagePack ID="ENU" IsDefault="true">
+			<DisplayStrings>
+				<DisplayString ElementID="SLC.KEMP.APIRunAsAccount">
+					<Name>SLC KEMP API Key</Name>
+					<Description>Only password is required, username can be anything. Create API key in KEMP VLM and copy/paste its value.</Description>
+				</DisplayString>
+			</DisplayStrings>
+		</LanguagePack>
+	</LanguagePacks>
+</ManagementPackFragment>

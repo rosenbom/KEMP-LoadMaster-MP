@@ -1,0 +1,54 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Monitoring>
+		<Discoveries>
+			<Discovery ID="SLC.KEMP.VLM_Discovery" Target="SNL!System.NetworkManagement.Node" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+				<Category>Discovery</Category>
+				<DiscoveryTypes>
+					<DiscoveryClass TypeID="SLC.KEMP.VLM" />
+				</DiscoveryTypes>
+				<DataSource ID="DS" TypeID="SLC.KEMP.VLM_DataSource">
+					<IntervalSeconds>3600</IntervalSeconds>
+					<SysObjId>.1.3.6.1.4.1.12196.250.10</SysObjId>
+					<Certification>Auto</Certification>
+					<Model>VLM3</Model>
+					<Vendor>KEMP</Vendor>
+					<ManagementFQDN>kemp management fqdn</ManagementFQDN>
+				</DataSource>
+			</Discovery>
+			<Discovery ID="SLC.KEMP.VLM_Services_Discovery" Target="SLC.KEMP.VLM" Enabled="true" ConfirmDelivery="false" Remotable="true" Priority="Normal">
+				<Category>Discovery</Category>
+				<DiscoveryTypes>
+					<DiscoveryClass TypeID="SLC.KEMP.VirtualService"/>
+					<DiscoveryClass TypeID="SLC.KEMP.RealServer" />
+					<DiscoveryClass TypeID="SLC.KEMP.SSLCertificate" />
+					<DiscoveryRelationship TypeID="SLC.KEMP.VirtualService_Contains_SubVirtualService" />
+					<DiscoveryRelationship TypeID="SLC.KEMP.VLM_Hosts_VirtualService" />
+					<DiscoveryRelationship TypeID="SLC.KEMP.VS_Hosts_RealServer" />
+					<DiscoveryRelationship TypeID="SLC.KEMP.VLM_Hosts_Certificate" />
+				</DiscoveryTypes>
+				<DataSource ID="DS" TypeID="SLC.KEMP.VLM_ServicesDS">
+					<Debug>false</Debug>
+					<IntervalSeconds>900</IntervalSeconds>
+					<TimeoutSeconds>240</TimeoutSeconds>
+				</DataSource>
+			</Discovery>
+		</Discoveries>
+	</Monitoring>
+	<LanguagePacks>
+		<LanguagePack ID="ENU" IsDefault="true">
+			<DisplayStrings>
+				<DisplayString ElementID="SLC.KEMP.VLM_Discovery">
+					<Name>SLC - KEMP LoadMaster Discovery</Name>
+					<Description>Discovers LM instance.</Description>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VLM_Services_Discovery">
+					<Name>SLC - KEMP Services Discovery</Name>
+					<Description>Discovers Virtuals Service, SubVS, and Real Servers.</Description>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VLM_ServicesDS">
+					<Name>KEMP Discovery Data Source Module</Name>
+				</DisplayString>
+			</DisplayStrings>
+		</LanguagePack>
+	</LanguagePacks>
+</ManagementPackFragment>

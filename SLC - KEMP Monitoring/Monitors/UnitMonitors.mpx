@@ -1,0 +1,168 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<Monitoring>
+		<Monitors>
+			<UnitMonitor ID="SLC.KEMP.RSStateMonitor" ParentMonitorID="Health!System.Health.AvailabilityState" Target="SLC.KEMP.RealServer" TypeID="SLC.KEMP.RSStateMonitorType" Priority="Normal" Enabled="true" Accessibility="Public" Remotable="true">
+				<Category>AvailabilityHealth</Category>
+				<AlertSettings AlertMessage="SLC.KEMP.RSStateMonitor_AlertMessage">
+					<AlertOnState>Error</AlertOnState>
+					<AutoResolve>true</AutoResolve>
+					<AlertPriority>High</AlertPriority>
+					<AlertSeverity>Warning</AlertSeverity>
+					<AlertParameters>
+						<AlertParameter1>$Target/Property[Type='System!System.Entity']/DisplayName$</AlertParameter1>
+						<AlertParameter2>$Target/Property[Type='SLC.KEMP.RealServer']/Addr$</AlertParameter2>
+						<AlertParameter3>$Target/Host/Property[Type='System!System.Entity']/DisplayName$</AlertParameter3>
+					</AlertParameters>
+				</AlertSettings>
+				<OperationalStates>
+					<OperationalState ID="Error" MonitorTypeStateID="FirstEventRaised" HealthState="Error"/>
+					<OperationalState ID="OK" MonitorTypeStateID="SecondEventRaised" HealthState="Success"/>
+				</OperationalStates>
+				<Configuration>
+					<IP>$Target/Host/Host/Property[Type="SNL!System.NetworkManagement.Node"]/SNMPAddress$</IP>
+					<RSIndex>$Target/Property[Type='SLC.KEMP.RealServer']/RsIndex$</RSIndex>
+					<FirstExpression>
+						<SimpleExpression>
+							<ValueExpression>
+								<XPathQuery>SnmpVarBinds/SnmpVarBind[OID=".1.3.6.1.4.1.12196.13.2.1.8.$Target/Property[Type='SLC.KEMP.RealServer']/RsIndex$"]/Value</XPathQuery>
+							</ValueExpression>
+							<Operator>Equal</Operator>
+							<ValueExpression>
+								<Value Type="UnsignedInteger">2</Value>
+							</ValueExpression>
+						</SimpleExpression>
+					</FirstExpression>
+					<SecondExpression>
+						<SimpleExpression>
+							<ValueExpression>
+								<XPathQuery>SnmpVarBinds/SnmpVarBind[OID=".1.3.6.1.4.1.12196.13.2.1.8.$Target/Property[Type='SLC.KEMP.RealServer']/RsIndex$"]/Value</XPathQuery>
+							</ValueExpression>
+							<Operator>Equal</Operator>
+							<ValueExpression>
+								<Value Type="UnsignedInteger">1</Value>
+							</ValueExpression>
+						</SimpleExpression>
+					</SecondExpression>
+				</Configuration>
+			</UnitMonitor>
+			<UnitMonitor ID="SLC.KEMP.VSStateMonitor" ParentMonitorID="Health!System.Health.AvailabilityState" Target="SLC.KEMP.VirtualService" TypeID="SLC.KEMP.VSStateMonitorType" Priority="Normal" Enabled="true" Accessibility="Public" Remotable="true">
+				<Category>AvailabilityHealth</Category>
+				<AlertSettings AlertMessage="SLC.KEMP.VSStateMonitor_AlertMessage">
+					<AlertOnState>Error</AlertOnState>
+					<AutoResolve>true</AutoResolve>
+					<AlertPriority>High</AlertPriority>
+					<AlertSeverity>MatchMonitorHealth</AlertSeverity>
+					<AlertParameters>
+						<AlertParameter1>$Target/Property[Type='System!System.Entity']/DisplayName$</AlertParameter1>
+						<AlertParameter2>$Target/Property[Type='SLC.KEMP.VirtualService']/VSAddress$</AlertParameter2>
+					</AlertParameters>
+				</AlertSettings>
+				<OperationalStates>
+					<OperationalState ID="Error" MonitorTypeStateID="FirstEventRaised" HealthState="Error"/>
+					<OperationalState ID="OK" MonitorTypeStateID="SecondEventRaised" HealthState="Success"/>
+				</OperationalStates>
+				<Configuration>
+					<IP>$Target/Host/Property[Type="SNL!System.NetworkManagement.Node"]/SNMPAddress$</IP>
+					<VSIndex>$Target/Property[Type='SLC.KEMP.VirtualService']/Index$</VSIndex>
+					<FirstExpression>
+						<SimpleExpression>
+							<ValueExpression>
+								<XPathQuery>SnmpVarBinds/SnmpVarBind[OID=".1.3.6.1.4.1.12196.13.1.1.14.$Target/Property[Type='SLC.KEMP.VirtualService']/Index$"]/Value</XPathQuery>
+							</ValueExpression>
+							<Operator>Equal</Operator>
+							<ValueExpression>
+								<Value Type="UnsignedInteger">2</Value>
+							</ValueExpression>
+						</SimpleExpression>
+					</FirstExpression>
+					<SecondExpression>
+						<SimpleExpression>
+							<ValueExpression>
+								<XPathQuery>SnmpVarBinds/SnmpVarBind[OID=".1.3.6.1.4.1.12196.13.1.1.14.$Target/Property[Type='SLC.KEMP.VirtualService']/Index$"]/Value</XPathQuery>
+							</ValueExpression>
+							<Operator>Equal</Operator>
+							<ValueExpression>
+								<Value Type="UnsignedInteger">1</Value>
+							</ValueExpression>
+						</SimpleExpression>
+					</SecondExpression>
+				</Configuration>
+			</UnitMonitor>
+			<UnitMonitor ID="SLC.KEMP.SSLCertificateExpirationMonitor" ParentMonitorID="Health!System.Health.AvailabilityState" Target="SLC.KEMP.SSLCertificate" TypeID="SLC.KEMP.SSLCertificateExpirationMonitorType" Enabled="false" Accessibility="Public" Remotable="true">
+				<Category>AvailabilityHealth</Category>
+				<AlertSettings AlertMessage="SLC.KEMP.SSLCertificateExpirationMonitor_AlertMessage">
+					<AlertOnState>Warning</AlertOnState>
+					<AutoResolve>true</AutoResolve>
+					<AlertPriority>High</AlertPriority>
+					<AlertSeverity>MatchMonitorHealth</AlertSeverity>
+					<AlertParameters>
+						<AlertParameter1>$Target/Property[Type='SLC.KEMP.SSLCertificate']/Thumbprint$</AlertParameter1>
+						<AlertParameter2>$Target/Property[Type='SLC.KEMP.SSLCertificate']/Subject$</AlertParameter2>
+						<AlertParameter3>$Target/Property[Type='SLC.KEMP.SSLCertificate']/NotAfter$</AlertParameter3>
+					</AlertParameters>
+				</AlertSettings>
+			    <OperationalStates>
+				  <OperationalState ID="Success" MonitorTypeStateID="Healthy" HealthState="Success" />
+				  <OperationalState ID="CertificateExpirationThreshold" MonitorTypeStateID="ExpiresSoon" HealthState="Warning" />
+				  <OperationalState ID="CertificateExpired" MonitorTypeStateID="Expired" HealthState="Error" />
+				</OperationalStates>
+				<Configuration>
+					<IntervalSeconds>43200</IntervalSeconds>
+					<SyncTime>00:00</SyncTime>
+					<Units>Days</Units>
+					<DateTimeExpression>$Target/Property[Type='SLC.KEMP.SSLCertificate']/NotAfter$</DateTimeExpression>
+					<Operator>Greater</Operator>
+					<Value>31</Value>
+					<Debug>false</Debug>
+					<ErrorThreshold>3.0</ErrorThreshold>
+				</Configuration>
+			</UnitMonitor>
+		</Monitors>
+	</Monitoring>
+	<Presentation>
+		<StringResources>
+			<StringResource ID="SLC.KEMP.RSStateMonitor_AlertMessage"/>
+			<StringResource ID="SLC.KEMP.VSStateMonitor_AlertMessage"/>
+			<StringResource ID="SLC.KEMP.SSLCertificateExpirationMonitor_AlertMessage"/>
+		</StringResources>
+	</Presentation>
+	<LanguagePacks>
+		<LanguagePack ID="ENU" IsDefault="true">
+			<DisplayStrings>
+				<DisplayString ElementID="SLC.KEMP.RSStateMonitor_AlertMessage">
+					<Name>KEMP Back-end server is down</Name>
+					<Description>
+KEMP Health Check failed for the back-end server {0} (ip {1})
+Affected Service: {2}
+					</Description>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VSStateMonitor_AlertMessage">
+					<Name>KEMP Virtual Service is down</Name>
+					<Description>
+KEMP reported Virtual service {0} (ip {1}) is down. 
+					</Description>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.RSStateMonitor">
+					<Name>KEMP RS HealthCheck Monitor</Name>
+					<Description>Monitors availability of the Real Server via SNMP Traps</Description>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VSStateMonitor">
+					<Name>KEMP VS HealthCheck Monitor</Name>
+					<Description>Monitors availability of the Virtual Service via SNMP Traps</Description>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.SSLCertificateExpirationMonitor">
+					<Name>KEMP Cert Expiration Monitor</Name>
+					<Description>Monitors the expiration date. Issues Warning when within a threshold and Error once certificate has expired.</Description>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.SSLCertificateExpirationMonitor_AlertMessage">
+					<Name>KEMP SSL Certificate expiration</Name>
+					<Description>The certificate with Thumbprint {0},
+Subject: {1}
+will expire on {2}.
+Please make sure you renew/replace the cerificate prior to the expiration. 
+					</Description>
+				</DisplayString>				
+			</DisplayStrings>
+		</LanguagePack>
+	</LanguagePacks>
+</ManagementPackFragment>

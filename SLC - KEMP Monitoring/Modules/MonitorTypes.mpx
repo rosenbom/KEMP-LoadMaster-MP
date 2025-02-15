@@ -1,0 +1,226 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<TypeDefinitions>
+		<MonitorTypes>
+			<UnitMonitorType ID="SLC.KEMP.RSStateMonitorType" Accessibility="Public">
+				<MonitorTypeStates>
+					<MonitorTypeState ID="FirstEventRaised" />
+					<MonitorTypeState ID="SecondEventRaised" />
+				</MonitorTypeStates>
+				<Configuration>
+					<IncludeSchemaTypes>
+						<SchemaType>System!System.ExpressionEvaluatorSchema</SchemaType>
+					</IncludeSchemaTypes>
+					<xsd:element minOccurs="1" maxOccurs="1" name="IP" type="xsd:string" />
+					<xsd:element minOccurs="0" maxOccurs="1" name="Version" type="xsd:string" />
+					<xsd:element name="RSIndex" type="xsd:string" />
+					<xsd:element name="FirstExpression" type="ExpressionType" />
+					<xsd:element name="SecondExpression" type="ExpressionType" />
+				</Configuration>
+				<MonitorImplementation>
+					<MemberModules>
+						<DataSource TypeID="SLC.KEMP.FilteredRSStateDS" ID="DS">
+							<IP>$Config/IP$</IP>
+							<Version>$Config/Version$</Version>
+							<RSIndex>$Config/RSIndex$</RSIndex>
+						</DataSource>
+						<ConditionDetection TypeID="System!System.ExpressionFilter" ID="FirstFilterCondition">
+							<Expression>$Config/FirstExpression$</Expression>
+						</ConditionDetection>
+						<ConditionDetection TypeID="System!System.ExpressionFilter" ID="SecondFilterCondition">
+							<Expression>$Config/SecondExpression$</Expression>
+						</ConditionDetection>
+					</MemberModules>
+					<RegularDetections>
+						<RegularDetection MonitorTypeStateID="FirstEventRaised">
+							<Node ID="FirstFilterCondition">
+								<Node ID="DS" />
+							</Node>
+						</RegularDetection>
+						<RegularDetection MonitorTypeStateID="SecondEventRaised">
+							<Node ID="SecondFilterCondition">
+								<Node ID="DS" />
+							</Node>
+						</RegularDetection>
+					</RegularDetections>
+				</MonitorImplementation>
+			</UnitMonitorType>
+			<UnitMonitorType ID="SLC.KEMP.VSStateMonitorType" Accessibility="Public">
+				<MonitorTypeStates>
+					<MonitorTypeState ID="FirstEventRaised" />
+					<MonitorTypeState ID="SecondEventRaised" />
+				</MonitorTypeStates>
+				<Configuration>
+					<IncludeSchemaTypes>
+						<SchemaType>System!System.ExpressionEvaluatorSchema</SchemaType>
+					</IncludeSchemaTypes>
+					<xsd:element minOccurs="1" maxOccurs="1" name="IP" type="xsd:string" />
+					<xsd:element minOccurs="0" maxOccurs="1" name="Version" type="xsd:string" />
+					<xsd:element name="VSIndex" type="xsd:string" />
+					<xsd:element name="FirstExpression" type="ExpressionType" />
+					<xsd:element name="SecondExpression" type="ExpressionType" />
+				</Configuration>
+				<MonitorImplementation>
+					<MemberModules>
+						<DataSource TypeID="SLC.KEMP.FilteredVSStateDS" ID="DS">
+							<IP>$Config/IP$</IP>
+							<Version>$Config/Version$</Version>
+							<VSIndex>$Config/VSIndex$</VSIndex>
+						</DataSource>
+						<ConditionDetection TypeID="System!System.ExpressionFilter" ID="FirstFilterCondition">
+							<Expression>$Config/FirstExpression$</Expression>
+						</ConditionDetection>
+						<ConditionDetection TypeID="System!System.ExpressionFilter" ID="SecondFilterCondition">
+							<Expression>$Config/SecondExpression$</Expression>
+						</ConditionDetection>
+					</MemberModules>
+					<RegularDetections>
+						<RegularDetection MonitorTypeStateID="FirstEventRaised">
+							<Node ID="FirstFilterCondition">
+								<Node ID="DS" />
+							</Node>
+						</RegularDetection>
+						<RegularDetection MonitorTypeStateID="SecondEventRaised">
+							<Node ID="SecondFilterCondition">
+								<Node ID="DS" />
+							</Node>
+						</RegularDetection>
+					</RegularDetections>
+				</MonitorImplementation>
+			</UnitMonitorType>
+			<UnitMonitorType ID="SLC.KEMP.SSLCertificateExpirationMonitorType" Accessibility="Public">
+				<MonitorTypeStates>
+					<MonitorTypeState ID="Healthy" />
+					<MonitorTypeState ID="ExpiresSoon" />
+					<MonitorTypeState ID="Expired" />
+				</MonitorTypeStates>
+				<Configuration>
+					<IncludeSchemaTypes>
+						<SchemaType>ManagedModules!DateTimeComparisonSchema</SchemaType>
+					</IncludeSchemaTypes>
+					<xsd:element name="IntervalSeconds" type="xsd:int" />
+					<xsd:element name="SyncTime" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="Units" type="DateTimeUnitsType" />
+					<xsd:element name="DateTimeExpression" type="XPathQueryDateTimeValueType" />
+					<xsd:element name="Operator" type="DateTimeCompareType" />
+					<xsd:element name="Value" type="xsd:int" />
+					<xsd:element name="Debug" type="xsd:boolean" minOccurs="0" maxOccurs="1" />
+					<xsd:element name="ErrorThreshold" type="xsd:double"/>
+				</Configuration>
+				<OverrideableParameters>
+					<OverrideableParameter ID="IntervalSeconds" ParameterType="int" Selector="$Config/IntervalSeconds$" />
+					<OverrideableParameter ID="SyncTime" ParameterType="string" Selector="$Config/SyncTime$" />
+					<OverrideableParameter ID="Units" ParameterType="string" Selector="$Config/Units$" />
+					<OverrideableParameter ID="Operator" ParameterType="string" Selector="$Config/Operator$" />
+					<OverrideableParameter ID="WarningThreshold" ParameterType="int" Selector="$Config/Value$" />
+					<OverrideableParameter ID="Debug" ParameterType="bool" Selector="$Config/Debug$" Comment="Enable debug logging, events can be found in %windir%\Temp\DateComparator.log"/>
+					<OverrideableParameter ID="ErrorThreshold" ParameterType="int" Selector="$Config/ErrorThreshold$" Comment="Certificate expiry error threshold."/>
+				</OverrideableParameters>
+				<MonitorImplementation>
+					<MemberModules>
+						<DataSource ID="DS" TypeID="ManagedModules!DateComparatorDataSource" >
+							<IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+							<SyncTime>$Config/SyncTime$</SyncTime>
+							<Units>$Config/Units$</Units>
+							<DateTimeExpression>$Config/DateTimeExpression$</DateTimeExpression>
+							<Operator>$Config/Operator$</Operator>
+							<Value>$Config/Value$</Value>
+							<Debug>$Config/Debug$</Debug>
+						</DataSource>
+						<ConditionDetection ID="FilterHealthy" TypeID="System!System.ExpressionFilter">
+							<Expression>
+								<SimpleExpression>
+									<ValueExpression>
+										<XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+									</ValueExpression>
+									<Operator>Equal</Operator>
+									<ValueExpression>
+										<Value Type="Boolean">true</Value>
+									</ValueExpression>
+								</SimpleExpression>
+							</Expression>
+						</ConditionDetection>
+						<ConditionDetection ID="FilterWarning" TypeID="System!System.ExpressionFilter">
+							<Expression>
+								<And>
+									<Expression>
+									<SimpleExpression>
+										<ValueExpression>
+											<XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+										</ValueExpression>
+										<Operator>Equal</Operator>
+										<ValueExpression>
+											<Value Type="Boolean">false</Value>
+										</ValueExpression>
+									</SimpleExpression>
+									</Expression>
+									<Expression>
+										<SimpleExpression>
+											<ValueExpression>
+												<NumericValue>
+													<XPathQuery>Property[@Name='Difference']</XPathQuery>
+												</NumericValue>
+											</ValueExpression>
+											<Operator>Greater</Operator>
+											<ValueExpression>
+												<Value Type="Double">$Config/ErrorThreshold$</Value>
+											</ValueExpression>
+										</SimpleExpression>
+									</Expression>
+								</And>
+							</Expression>
+							
+						</ConditionDetection>
+						<ConditionDetection ID="FilterError" TypeID="System!System.ExpressionFilter">
+							<Expression>
+								<And>
+									<Expression>
+										<SimpleExpression>
+											<ValueExpression>
+												<XPathQuery Type="String">Property[@Name='Status']</XPathQuery>
+											</ValueExpression>
+											<Operator>Equal</Operator>
+											<ValueExpression>
+												<Value Type="Boolean">false</Value>
+											</ValueExpression>
+										</SimpleExpression>
+									</Expression>
+									<Expression>
+										<SimpleExpression>
+											<ValueExpression>
+												<NumericValue>
+													<XPathQuery>Property[@Name='Difference']</XPathQuery>
+												</NumericValue>
+											</ValueExpression>
+											<Operator>LessEqual</Operator>
+											<ValueExpression>
+												<Value Type="Double">$Config/ErrorThreshold$</Value>
+											</ValueExpression>
+										</SimpleExpression>
+									</Expression>
+								</And>
+							</Expression>
+						</ConditionDetection>
+					</MemberModules>
+					<RegularDetections>
+						<RegularDetection MonitorTypeStateID="Healthy">
+							<Node ID="FilterHealthy">
+								<Node ID="DS" />
+							</Node>
+						</RegularDetection>
+						<RegularDetection MonitorTypeStateID="ExpiresSoon">
+							<Node ID="FilterWarning">
+								<Node ID="DS" />
+							</Node>
+						</RegularDetection>
+						<RegularDetection MonitorTypeStateID="Expired">
+							<Node ID="FilterError">
+								<Node ID="DS" />
+							</Node>
+						</RegularDetection>						
+					</RegularDetections>
+				</MonitorImplementation>
+			</UnitMonitorType>
+		</MonitorTypes>
+	</TypeDefinitions>
+  
+</ManagementPackFragment>

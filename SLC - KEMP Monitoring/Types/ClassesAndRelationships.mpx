@@ -1,0 +1,292 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<TypeDefinitions>
+		<EntityTypes>
+			<ClassTypes>
+				<ClassType ID="SLC.KEMP.VLM" Accessibility="Public" Abstract="false" Base="SNL!System.NetworkManagement.LoadBalancer" Hosted="false" Singleton="false">
+					<Property ID="ManagementFQDN" Type="string" Key="false"/>
+				</ClassType>
+				<ClassType ID="SLC.KEMP.VirtualService" Accessibility="Public" Abstract="false" Base="SNL!System.NetworkManagement.LogicalDevice" Hosted="true" Singleton="false">
+					<Property ID="Index" Type="int" Key="true" />
+					<Property ID="NickName" Type="string" Key="false" />
+					<Property ID="Enable" Type="bool" Key="false" />
+					<Property ID="VSAddress" Type="string" Key="false" />
+					<Property ID="VSPort" Type="int" Key="false" />
+					<Property ID="VStype" Type="string" Key="false" />
+					<Property ID="Protocol" Type="string" Key="false" />
+					<Property ID="Layer" Type="string" Key="false" />
+					<Property ID="DefaultGW" Type="string" Key="false" />
+
+					<Property ID="MasterVS" Type="int" Key="false" />
+					<Property ID="MasterVSID" Type="int" Key="false" />
+					
+					
+					<Property ID="CheckType" Type="string" Key="false" />
+					<Property ID="CheckPort" Type="int" Key="false" />
+					<Property ID="ChkInterval" Type="string" Key="false" />
+					<Property ID="NumberOfRSs" Type="int" Key="false" />
+					<Property ID="FollowVSID" Type="int" Key="false" />
+					<Property ID="AlertThreshold" Type="string" Key="false" />
+					
+					
+					<Property ID="Persist" Type="string" Key="false" />
+					<Property ID="Cookie" Type="string" Key="false" />
+					
+					<Property ID="SSLAcceleration" Type="bool" Key="false" />
+					<Property ID="SSLRewrite" Type="string" Key="false" />
+					<Property ID="SSLReverse" Type="bool" Key="false" />
+					<Property ID="TlsType" Type="string" Key="false" />
+					<Property ID="SSLReencrypt" Type="bool" Key="false" />
+					<Property ID="PassSni" Type="bool" Key="false" />
+					<Property ID="CipherSet" Type="string" Key="false"/>
+				
+					<Property ID="HTTPReschedule" Type="bool" Key="false" />
+					<Property ID="AllowHTTP2" Type="bool" Key="false" />
+
+					<Property ID="SameSite" Type="string" Key="false" />
+					<Property ID="IsTransparent" Type="string" Key="false" />
+					<Property ID="Transparent" Type="bool" Key="false" />
+					<Property ID="ForceL4" Type="bool" Key="false" />
+					<Property ID="SubnetOriginating" Type="bool" Key="false" />
+					<Property ID="Cache" Type="bool" Key="false" />
+					<Property ID="UseforSnat" Type="bool" Key="false" />
+					<Property ID="EspEnabled" Type="bool" Key="false" />
+				</ClassType>
+				<ClassType ID="SLC.KEMP.RealServer" Accessibility="Public" Abstract="false" Base="SNL!System.NetworkManagement.IPEndpoint" Hosted="true" Singleton="false">
+					<Property ID="RsIndex" Type="int" Key="true" />
+					<Property ID="Addr" Type="string" Key="false" />
+					<Property ID="Port" Type="int" Key="false" />
+					<Property ID="DnsName" Type="string" Key="false" />
+					<Property ID="Weight" Type="int" Key="false" />
+					<Property ID="Forward" Type="string" Key="false" />
+					<Property ID="RateLimit" Type="string" Key="false" />
+					<Property ID="Limit" Type="string" Key="false" />
+				</ClassType>
+				<ClassType ID="SLC.KEMP.SSLCertificate" Accessibility="Public" Abstract="false" Base="System!System.LogicalEntity" Hosted="true" Extension="false" Singleton="false">
+					<Property ID="Subject" Type="string" Key="false"/>
+					<Property ID="Issuer" Type="string" Key="true"/>
+					<Property ID="NotBefore" Type="datetime" Key="false"/>
+					<Property ID="NotAfter" Type="datetime" Key="false"/>
+					<Property ID="Thumbprint" Type="string" Key="false"/>
+					<Property ID="SerialNumber" Type="string" Key="true"/>
+					<Property ID="Archived" Type="bool" Key="false"/>
+					<Property ID="CertFile" Type="string" Key="false" />
+				</ClassType>
+			</ClassTypes>
+			<RelationshipTypes>
+				<RelationshipType ID="SLC.KEMP.VLM_Hosts_VirtualService" Accessibility="Public" Abstract="false" Base="System!System.Hosting">
+					<Source ID="LoadBalancer" Type="SLC.KEMP.VLM"/>
+					<Target ID="VirtualService" Type="SLC.KEMP.VirtualService"/>
+				</RelationshipType>
+				<RelationshipType ID="SLC.KEMP.VS_Hosts_RealServer" Accessibility="Public" Abstract="false" Base="System!System.Hosting">
+					<Source ID="VirtualService" Type="SLC.KEMP.VirtualService"/>
+					<Target ID="RealServer" Type="SLC.KEMP.RealServer"/>
+				</RelationshipType>
+				<RelationshipType ID="SLC.KEMP.VirtualService_Contains_SubVirtualService" Accessibility="Public" Abstract="false" Base="System!System.Containment">
+					<Source ID="VirtualService" Type="SLC.KEMP.VirtualService"/>
+					<Target ID="SubVS" Type="SLC.KEMP.VirtualService" />
+				</RelationshipType>
+				<RelationshipType ID="SLC.KEMP.VLM_Hosts_Certificate" Accessibility="Public" Abstract="false" Base="System!System.Hosting">
+					<Source ID="LoadBalancer" Type="SLC.KEMP.VLM"/>
+					<Target ID="Certificate" Type="SLC.KEMP.SSLCertificate"/>
+				</RelationshipType>
+			</RelationshipTypes>
+		</EntityTypes>
+	</TypeDefinitions>
+	<LanguagePacks>
+		<LanguagePack ID="ENU" IsDefault="true">
+			<DisplayStrings>
+				<DisplayString ElementID="SLC.KEMP.VLM">
+					<Name>KEMP Virtual LoadMaster</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VLM" SubElementID="ManagementFQDN">
+					<Name>Management FQDN</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService">
+					<Name>KEMP Virtual Service</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="Index">
+					<Name>Index</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="NickName">
+					<Name>Name</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="VSAddress">
+					<Name>Address</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="VSPort">
+					<Name>Port</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="VStype">
+					<Name>Type</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="Protocol">
+					<Name>Protocol</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="Layer">
+					<Name>Network Layer</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="Enable">
+					<Name>Enable Status</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="MasterVS">
+					<Name>SubVS Count</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="MasterVSID">
+					<Name>Top-level VS Index</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="CheckType">
+					<Name>Check Type</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="CheckPort">
+					<Name>Check Port</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="Persist">
+					<Name>Persist</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="SubnetOriginating">
+					<Name>Is SubnetOriginating</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="PassSni">
+					<Name>is Pass-through SNI</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="CipherSet">
+					<Name>Cipher Set</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="Transparent">
+					<Name>Transparent</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="NumberOfRSs">
+					<Name>Number Of RSs</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="SSLReencrypt">
+					<Name>SSL Reencrypt</Name>
+					<Description>This parameter is only relevant if SSL Acceleration is enabled. When this option is enabled, the SSL data stream is re-encrypted before sending to the Real Server</Description>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="AlertThreshold">
+					<Name>Alert Threshold</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="Cookie">
+					<Name>Cookie name</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="SameSite">
+					<Name>Same Site</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="IsTransparent">
+					<Name>Is Transparent</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="SSLReverse">
+					<Name>SSL Reverse</Name>
+					<Description>Enabling this parameter means that the data from the LoadMaster to the Real Server is re-encrypted.</Description>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="TlsType">
+					<Name>Tls Type</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="HTTPReschedule">
+					<Name>HTTP Reschedule</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="EspEnabled">
+					<Name>Esp Enabled</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="FollowVSID">
+					<Name>VS Id to follow</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="SSLRewrite">
+					<Name>SSL Rewrite</Name>
+					<Description>When the Real Server rejects a request with a HTTP redirect, the requesting Location URL may need to be converted to specify HTTPS instead of HTTP (and vice versa)</Description>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="ForceL4">
+					<Name>Force Layer 4</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="DefaultGW">
+					<Name>Default Gateway</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="SSLAcceleration">
+					<Name>SSL Acceleration</Name>
+					<Description>Enable SSL handling on this Virtual Service.</Description>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="Cache">
+					<Name>Cache</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="UseforSnat">
+					<Name>Use for SNAT</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="AllowHTTP2">
+					<Name>Allow HTTP/2</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService" SubElementID="ChkInterval">
+					<Name>Check Interval</Name>
+				</DisplayString>
+			
+				<DisplayString ElementID="SLC.KEMP.RealServer">
+					<Name>KEMP Real Server</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.RealServer" SubElementID="RsIndex">
+					<Name>RS Index</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.RealServer" SubElementID="Addr">
+					<Name>Address</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.RealServer" SubElementID="Port">
+					<Name>Port</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.RealServer" SubElementID="DnsName">
+					<Name>Dns Name</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.RealServer" SubElementID="Weight">
+					<Name>Weight</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.RealServer" SubElementID="Forward">
+					<Name>Forward</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.RealServer" SubElementID="RateLimit">
+					<Name>Connection Rate Limit</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.RealServer" SubElementID="Limit">
+					<Name>Connection Limit</Name>
+				</DisplayString>
+
+				<DisplayString ElementID="SLC.KEMP.VLM_Hosts_VirtualService">
+					<Name>KEMP VLM Hosts VS</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VS_Hosts_RealServer">
+					<Name>KEMP VS Hosts RS</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VirtualService_Contains_SubVirtualService">
+					<Name>KEMP VS contains SubVS</Name>
+				</DisplayString>
+
+				<DisplayString ElementID="SLC.KEMP.SSLCertificate">
+					<Name>KEMP SSL Certificate</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.SSLCertificate" SubElementID="Subject">
+					<Name>Subject</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.SSLCertificate" SubElementID="Issuer">
+					<Name>Issuer</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.SSLCertificate" SubElementID="NotBefore">
+					<Name>NotBefore</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.SSLCertificate" SubElementID="NotAfter">
+					<Name>NotAfter</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.SSLCertificate" SubElementID="Thumbprint">
+					<Name>Thumbprint</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.SSLCertificate" SubElementID="SerialNumber">
+					<Name>SerialNumber</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.SSLCertificate" SubElementID="Archived">
+					<Name>Archived</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.SSLCertificate" SubElementID="CertFile">
+					<Name>CertFile</Name>
+				</DisplayString>
+				<DisplayString ElementID="SLC.KEMP.VLM_Hosts_Certificate">
+					<Name>KEMP VLM Hosts SSL Certificate</Name>
+				</DisplayString>
+				
+			</DisplayStrings>
+		</LanguagePack>
+	</LanguagePacks>
+</ManagementPackFragment>

@@ -1,0 +1,134 @@
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{37cf7541-0940-4fbe-8464-83c6384f5b41}</ProjectGuid>
+    <RootNamespace>SLC.KEMP.Monitoring</RootNamespace>
+    <Name>SLC KEMP Monitoring</Name>
+    <ManagementPackName>SLC.KEMP.Monitoring</ManagementPackName>
+    <Version>1.0.0.1</Version>
+    <MpFrameworkVersion>v7.0.4</MpFrameworkVersion>
+    <MpFrameworkProfile>OM</MpFrameworkProfile>
+    <ProductVersion>1.1.0.0</ProductVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <GenerateSealed>false</GenerateSealed>
+    <Company>MyCompany</Company>
+    <Copyright>Copyright (c) MyCompany. All rights reserved.</Copyright>
+    <DelaySigning>false</DelaySigning>
+    <AssemblyOriginatorKeyFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>bin\Release\</OutputPath>
+    <DelaySigning>False</DelaySigning>
+    <Company>Dmitry Rozenraukh</Company>
+    <Copyright>Copyright (c). All rights reserved.</Copyright>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>C:\Users\rosen\Downloads\CertTesterSCOMModule\CertTesterSCOMModule\pub.snk</AssemblyOriginatorKeyFile>
+    <GenerateSealed>True</GenerateSealed>
+  </PropertyGroup>
+  <ItemGroup>
+    <ManagementPackReference Include="Microsoft.SystemCenter.InstanceGroup.Library">
+      <HintPath>C:\Users\rozenraukhd\source\repos\CJIS Monitoring\Dependencies\Microsoft.SystemCenter.InstanceGroup.Library.mp</HintPath>
+      <Alias>MSIL</Alias>
+      <MinVersion>7.5.8501.0</MinVersion>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.SystemCenter.Library">
+      <Alias>SC</Alias>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.Windows.Library">
+      <Alias>Windows</Alias>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.AdminItem.Library">
+      <HintPath>C:\Users\rozenraukhd\source\repos\CJIS Monitoring\Dependencies\SM Library\Library\System.AdminItem.Library.mp</HintPath>
+      <Alias>SAL</Alias>
+      <MinVersion>7.5.8501.0</MinVersion>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Health.Library">
+      <Alias>Health</Alias>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Library">
+      <Alias>System</Alias>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.SystemCenter.Visualization.Library">
+      <Alias>Visualization</Alias>
+      <PackageToBundle>false</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.NetworkManagement.Library">
+      <HintPath>C:\Users\rozenraukhd\source\repos\CJIS Monitoring\Dependencies\System.NetworkManagement.Library.mp</HintPath>
+      <Alias>SNL</Alias>
+      <MinVersion>10.19.10050.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.NetworkManagement.Monitoring">
+      <HintPath>C:\Users\rozenraukhd\source\repos\CJIS Monitoring\Dependencies\System.NetworkManagement.Monitoring.mp</HintPath>
+      <Alias>SNM</Alias>
+      <MinVersion>10.19.10050.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Snmp.Library">
+      <HintPath>C:\Users\rozenraukhd\source\repos\CJIS Monitoring\Dependencies\System.Snmp.Library.mp</HintPath>
+      <Alias>Snmp</Alias>
+      <MinVersion>7.0.8443.6</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Software.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio 2022 Authoring Extensions\References\OM2019\System.Software.Library.mp</HintPath>
+      <Alias>SSL</Alias>
+      <MinVersion>7.5.8501.0</MinVersion>
+    </ManagementPackReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Discoveries\KEMPVLMDiscovery.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ManagementPack.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\ModuleTypes.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\MonitorTypes.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Monitors\DependencyMonitors.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Monitors\UnitMonitors.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SecureReference\KEMPAPIRunAs.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Types\ClassesAndRelationships.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modules" />
+    <Folder Include="Monitors" />
+    <Folder Include="Discoveries" />
+    <Folder Include="Scripts" />
+    <Folder Include="SecureReference" />
+    <Folder Include="Types" />
+    <Folder Include="Rules" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\KEMPVSRSDiscovery.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SLC - Managed Modules\SLC - Managed Modules.mpproj">
+      <Name>SLC - Managed Modules</Name>
+      <Project>{af99e86e-d765-450e-9fdc-54f3695368fa}</Project>
+      <Private>True</Private>
+      <Alias>ManagedModules</Alias>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
+</Project>

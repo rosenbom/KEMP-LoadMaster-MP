@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35728.132 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SCOMModules", "SLCSCOMModule\SCOMModules.csproj", "{41B7329E-C388-46FF-A772-5EEF996EBEDE}"
+EndProject
+Project("{D4B43EB3-688B-4EEE-86BD-088F0B28ABB3}") = "SLC - Managed Modules", "SLC - Managed Modules\SLC - Managed Modules.mpproj", "{AF99E86E-D765-450E-9FDC-54F3695368FA}"
+EndProject
+Project("{D4B43EB3-688B-4EEE-86BD-088F0B28ABB3}") = "SLC KEMP Monitoring", "SLC - KEMP Monitoring\SLC KEMP Monitoring.mpproj", "{37CF7541-0940-4FBE-8464-83C6384F5B41}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{41B7329E-C388-46FF-A772-5EEF996EBEDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41B7329E-C388-46FF-A772-5EEF996EBEDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41B7329E-C388-46FF-A772-5EEF996EBEDE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{41B7329E-C388-46FF-A772-5EEF996EBEDE}.Debug|x86.Build.0 = Debug|Any CPU
+		{41B7329E-C388-46FF-A772-5EEF996EBEDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41B7329E-C388-46FF-A772-5EEF996EBEDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41B7329E-C388-46FF-A772-5EEF996EBEDE}.Release|x86.ActiveCfg = Release|Any CPU
+		{41B7329E-C388-46FF-A772-5EEF996EBEDE}.Release|x86.Build.0 = Release|Any CPU
+		{AF99E86E-D765-450E-9FDC-54F3695368FA}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{AF99E86E-D765-450E-9FDC-54F3695368FA}.Debug|Any CPU.Build.0 = Debug|x86
+		{AF99E86E-D765-450E-9FDC-54F3695368FA}.Debug|x86.ActiveCfg = Debug|x86
+		{AF99E86E-D765-450E-9FDC-54F3695368FA}.Debug|x86.Build.0 = Debug|x86
+		{AF99E86E-D765-450E-9FDC-54F3695368FA}.Release|Any CPU.ActiveCfg = Release|x86
+		{AF99E86E-D765-450E-9FDC-54F3695368FA}.Release|Any CPU.Build.0 = Release|x86
+		{AF99E86E-D765-450E-9FDC-54F3695368FA}.Release|x86.ActiveCfg = Release|x86
+		{AF99E86E-D765-450E-9FDC-54F3695368FA}.Release|x86.Build.0 = Release|x86
+		{37CF7541-0940-4FBE-8464-83C6384F5B41}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{37CF7541-0940-4FBE-8464-83C6384F5B41}.Debug|Any CPU.Build.0 = Debug|x86
+		{37CF7541-0940-4FBE-8464-83C6384F5B41}.Debug|x86.ActiveCfg = Debug|x86
+		{37CF7541-0940-4FBE-8464-83C6384F5B41}.Debug|x86.Build.0 = Debug|x86
+		{37CF7541-0940-4FBE-8464-83C6384F5B41}.Release|Any CPU.ActiveCfg = Release|x86
+		{37CF7541-0940-4FBE-8464-83C6384F5B41}.Release|Any CPU.Build.0 = Release|x86
+		{37CF7541-0940-4FBE-8464-83C6384F5B41}.Release|x86.ActiveCfg = Release|x86
+		{37CF7541-0940-4FBE-8464-83C6384F5B41}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
