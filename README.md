@@ -15,9 +15,10 @@ KEMP MP uses managed module to perform date comparison. The reason for that is i
 Discoveries:
   1. KEMP VLM instance - discovery target is System.NetworkManagement.Node, filtered by SysObjId .1.3.6.1.4.1.12196.250.10
   2. A single PowerShell-based discovery for three classes and relationships:
-      KEMP Virtual Service (VS) - discovery via KEMP WebAPI
-      KEMP Sub VS - discovery via KEMP WebAPI
-      KEMP Real Server (RS) - discovery via KEMP WebAPI
+     1. KEMP Virtual Service (VS) - discovery via KEMP WebAPI
+     2. KEMP Sub VS - discovery via KEMP WebAPI
+     3. KEMP Real Server (RS) - discovery via KEMP WebAPI
+     
 Monitors:
   1. Virtual Service State - via SNMP traps
   2. Real Server State - via SNMP traps
